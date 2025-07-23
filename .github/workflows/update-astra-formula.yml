@@ -23,9 +23,9 @@ jobs:
                   echo "SHA256=$SHA256" >> $GITHUB_ENV
             - name: Update Homebrew formula
               run: |
-                  sed -i '' "s|url .*|url \"$ARCHIVE_URL\"|" Formula/astra.rb
-                  sed -i '' "s|sha256 .*|sha256 \"$SHA256\"|" Formula/astra.rb
-                  sed -i '' "s|version .*|version \"$${{ github.event.inputs.version }}\"|" Formula/astra.rb
+                  sed -i "s|url .*|url \"$ARCHIVE_URL\"|" Formula/astra.rb
+                  sed -i "s|sha256 .*|sha256 \"$SHA256\"|" Formula/astra.rb
+                  sed -i "s|version .*|version \"$${{ github.event.inputs.version }}\"|" Formula/astra.rb
             - name: Commit changes
               run: |
                   git config --local user.name "GitHub Actions"
