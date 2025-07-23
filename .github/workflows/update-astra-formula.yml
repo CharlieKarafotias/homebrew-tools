@@ -1,0 +1,34 @@
+name: Update Astra Formula
+
+on:
+    workflow_dispatch:
+        inputs:
+            version:
+                description: 'Release version to update to (e.g. v1.0.0)'
+                required: true
+
+jobs:
+    update-formula:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+            - name: Set variables
+              run: |
+                  echo "ARCHIVE_URL=https://github.com/CharlieKarafotias/astra/archive/refs/tags/${{ github.event.inputs.version }}.tar.gz" >> $GITHUB_ENV
+            - name: Download archive and compute SHA256
+              run: |
+                  curl -L $ARCHIVE_URL -o astra.tar.gz
+                  SHA256=$(sha256sum astra.tar.gz | awk '{print $1}')
+                  echo "SHA256=$SHA256" >> $GITHUB_ENV
+            - name: Update Homebrew formula
+              run: |
+                  sed -i '' "s|url .*|url \"$ARCHIVE_URL\"|" Formula/astra.rb
+                  sed -i '' "s|sha256 .*|sha256 \"$SHA256\"|" Formula/astra.rb
+                  sed -i '' "s|version .*|version \"$${{ github.event.inputs.version }}\"|" Formula/astra.rb
+            - name: Commit changes
+              run: |
+                  git config --local user.name "GitHub Actions"
+                  git config --local user.email "actions@github.com"
+                  git commit -am "Update Astra formula to version ${{ github.event.inputs.version }}"
+                  git push
