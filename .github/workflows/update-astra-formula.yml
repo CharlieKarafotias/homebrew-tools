@@ -1,4 +1,5 @@
 name: Update Astra Formula
+run-name: Update Astra Formula to ${{ github.event.inputs.version }}
 
 permissions:
     contents: write
@@ -19,7 +20,8 @@ jobs:
             - name: Set variables
               run: |
                   echo "ARCHIVE_URL=https://github.com/CharlieKarafotias/astra/archive/refs/tags/${{ github.event.inputs.version }}.tar.gz" >> $GITHUB_ENV
-                  echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+                  VERSION=${{ github.event.inputs.version }} | sed 's/^v//'
+                  echo "VERSION=$(echo "v1.0.1" | awk '{ gsub(/^v/, "", $0); print }')" >> $GITHUB_ENV
             - name: Download archive and compute SHA256
               run: |
                   curl -L $ARCHIVE_URL -o astra.tar.gz
