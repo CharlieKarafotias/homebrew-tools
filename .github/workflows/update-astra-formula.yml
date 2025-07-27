@@ -20,8 +20,7 @@ jobs:
             - name: Set variables
               run: |
                   echo "ARCHIVE_URL=https://github.com/CharlieKarafotias/astra/archive/refs/tags/${{ github.event.inputs.version }}.tar.gz" >> $GITHUB_ENV
-                  VERSION_no_v=${{ github.event.inputs.version }} | sed 's/^v//'
-                  echo "VERSION=$(echo $VERSION_no_v | awk '{ gsub(/^v/, "", $0); print }')" >> $GITHUB_ENV
+                  echo "VERSION_NO_V_PREFIX=$(echo ${{ github.event.inputs.version }} | awk '{sub(/^v/, ""); print}')" >> $GITHUB_ENV
             - name: Download archive and compute SHA256
               run: |
                   curl -L $ARCHIVE_URL -o astra.tar.gz
@@ -31,7 +30,7 @@ jobs:
               run: |
                   sed -i "s|url .*|url \"$ARCHIVE_URL\"|" Formula/astra.rb
                   sed -i "s|sha256 .*|sha256 \"$SHA256\"|" Formula/astra.rb
-                  sed -i "s|version .*|version \"$VERSION\"|" Formula/astra.rb
+                  sed -i "s|version .*|version \"$VERSION_NO_V_PREFIX\"|" Formula/astra.rb
             - name: Commit changes
               run: |
                   git config --local user.name "GitHub Actions"
