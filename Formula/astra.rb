@@ -1,9 +1,9 @@
 class Astra < Formula
     desc "Astra is a powerful daily wallpaper generator that brings stunning, high-quality wallpapers to your desktop"
     homepage "https://github.com/CharlieKarafotias/astra"
-    version "1.1.3"
-    url "https://github.com/CharlieKarafotias/astra/archive/refs/tags/v1.1.3.tar.gz"
-    sha256 "84f71716456e114c9fe9e493cdb0e9a219b99ae0d86961739e7e69f80f30a3cd"
+    version "1.2.0"
+    url "https://github.com/CharlieKarafotias/astra/archive/refs/tags/v1.2.0.tar.gz"
+    sha256 "eff8f9d9a0db3093fb38ec889c5cfcacb528b9feae208840ef2b3be7b8def22f"
     license "MIT"
 
     depends_on "rust" => :build
