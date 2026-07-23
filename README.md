@@ -8,7 +8,8 @@ Supercharge your workflow with Astra! Here's how to install it:
 
 ```bash
 brew tap charliekarafotias/tools
-brew install astra
+brew trust charliekarafotias/tools
+brew install charliekarafotias/tools/astra
 ```
 
 🎉 Astra installed successfully! Unleash its power now!
